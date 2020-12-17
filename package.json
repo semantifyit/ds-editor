@@ -1,0 +1,25 @@
+{
+  "name": "ds-editor",
+  "version": "0.0.1",
+  "description": "Domain Specification Editor",
+  "main": "src/DSEditor.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/semantifyit/ds-editor.git"
+  },
+  "keywords": [
+    "ds-editor",
+    "domain specification",
+    "shacl",
+    "schema.org",
+    "semantic web",
+    "linked",
+    "data"
+  ],
+  "author": "Jan Schlenker for STI Innsbruck",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/semantifyit/ds-editor/issues"
+  },
+  "homepage": "https://github.com/semantifyit/ds-editor#readme"
+}
