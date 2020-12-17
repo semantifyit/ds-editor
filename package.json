@@ -16,6 +16,38 @@
     "linked",
     "data"
   ],
+  "dependencies": {
+    "schema-org-adapter": "^3.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
+    "babelify": "^10.0.0",
+    "browserify": "^17.0.0",
+    "uglifyify": "^5.0.2"
+  },
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "presets": [
+            [
+              "@babel/preset-env",
+              {
+                "targets": {
+                  "esmodules": true
+                }
+              }
+            ]
+          ],
+          "plugins": [
+            "@babel/plugin-proposal-class-properties"
+          ]
+        }
+      ]
+    ]
+  },
   "author": "Jan Schlenker for STI Innsbruck",
   "license": "MIT",
   "bugs": {
