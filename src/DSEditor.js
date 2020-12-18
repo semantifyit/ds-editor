@@ -17,6 +17,7 @@ class DSEditor {
         await this.initSDOAdapter();
 
         this.elem.innerHTML = this.createInput();
+        this.addEventListenerForSelectingClass();
     }
 
     async initSDOAdapter() {
@@ -25,14 +26,24 @@ class DSEditor {
     }
 
     createInput() {
+        const inputId = this.cssId + '-class-input';
         const listId = this.cssId + '-class-list';
         return '' +
-            '<input spellcheck="false" list="' + listId + '">' +
+            'Start Class: ' +
+            '<input id="' + inputId + '" spellcheck="false" list="' + listId + '">' +
             '<datalist id="' + listId + '">' +
             this.sdoAdapter.getListOfClasses().sort().map((sdoClass) => {
                 return '<option>' + Util.prettyPrintIri(sdoClass) + '</option>';
             }).join('') +
             '</datalist>';
+    }
+
+    addEventListenerForSelectingClass() {
+        const inputId = this.cssId + '-class-input';
+        const input = document.getElementById(inputId);
+        input.addEventListener('change', () => {
+            // TODO: Show/Change Properties
+        }, true);
     }
 }
 
