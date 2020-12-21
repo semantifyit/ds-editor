@@ -49,7 +49,7 @@ class DSEditor {
     }
 
     render() {
-        this.elem.innerHTML = this.createInput();
+        this.elem.innerHTML = this.createInput() + this.createPropertyLayout();
         this.addEventListenerForSelectingClass();
     }
 
@@ -66,11 +66,21 @@ class DSEditor {
             '</datalist>';
     }
 
+    createPropertyLayout() {
+        const rowId = this.cssId + '-property-row';
+        return '<div id="' + rowId + '">' +
+            '<div class="ds-editor-avail-props"></div>' +
+            '<div class="ds-editor-sel-props"></div>' +
+            '</div>';
+    }
+
     addEventListenerForSelectingClass() {
         const inputId = this.cssId + '-class-input';
         const input = document.getElementById(inputId);
         input.addEventListener('change', (event) => {
-            this.shacl.addRootClasses(event.target.value);
+            const selectedClass = event.target.value;
+            this.shacl.addRootClasses(selectedClass);
+
             // TODO: Adapter HTML
         }, true);
     }

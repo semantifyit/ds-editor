@@ -2,7 +2,7 @@
   "name": "ds-editor",
   "version": "0.0.1",
   "description": "Domain Specification Editor",
-  "main": "src/DSEditor.js",
+  "main": "src/js/DSEditor.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/semantifyit/ds-editor.git"
