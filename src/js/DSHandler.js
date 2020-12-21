@@ -1,5 +1,32 @@
-class Shacl {
-    static getDSContext() {
+class DSHandler {
+    constructor(latestSDOVersion) {
+        this.ds = this.getDSScaffold(latestSDOVersion);
+    }
+
+    getDSScaffold(latestSDOVersion) {
+        return {
+            "@context": this.getDSContext(),
+            "@graph": [
+                {
+                    "@id": "_:RootNode",
+                    "@type": ["sh:NodeShape", "schema:CreativeWork"],
+                    "schema:author": {
+                        "@type": "schema:Person",
+                        "schema:name": ""
+                    },
+                    "schema:name": "",
+                    "schema:description": "",
+                    "schema:schemaVersion": "https://schema.org/version/" + latestSDOVersion + "/",
+                    "ds:usedVocabularies": [],
+                    "schema:version": 0,
+                    "sh:targetClass": "",
+                    "sh:property": []
+                }
+            ]
+        };
+    }
+
+    getDSContext() {
         return {
             "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
             "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
@@ -64,10 +91,6 @@ class Shacl {
         };
     }
 
-    constructor(ds) {
-        this.ds = ds;
-    }
-
     addRootClasses(targetClasses) {
         // TargetClass is either a string or an array of strings
         // The specified class(es) must use the vocab indicator, e.g. "schema:bakery" or "sti:schiHuette"
@@ -92,4 +115,4 @@ class Shacl {
     }
 }
 
-module.exports = Shacl;
+module.exports = DSHandler;

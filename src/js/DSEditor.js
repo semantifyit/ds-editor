@@ -1,6 +1,6 @@
 import SDOAdapter from 'schema-org-adapter';
 
-import Shacl from './Shacl';
+import DSHandler from './DSHandler';
 import Util from './Util';
 
 class DSEditor {
@@ -12,38 +12,17 @@ class DSEditor {
         await sdoAdapter.addVocabularies([sdoURL]);
         const latestSDOVersion = await sdoAdapter.getLatestSDOVersion();
 
-        const ds = {
-            "@context": Shacl.getDSContext(),
-            "@graph": [
-                {
-                    "@id": "_:RootNode",
-                    "@type": ["sh:NodeShape", "schema:CreativeWork"],
-                    "schema:author": {
-                        "@type": "schema:Person",
-                        "schema:name": ""
-                    },
-                    "schema:name": "",
-                    "schema:description": "",
-                    "schema:schemaVersion": "https://schema.org/version/" + latestSDOVersion + "/",
-                    "ds:usedVocabularies": [],
-                    "schema:version": 0,
-                    "sh:targetClass": "",
-                    "sh:property": []
-                }
-            ]
-        };
+        const dsHandler = new DSHandler(latestSDOVersion);
 
         const cssId = 'ds-editor-' + (DSEditor.instanceCounter + 1);
-        return new DSEditor(elem, sdoAdapter, ds, cssId);
+        return new DSEditor(elem, sdoAdapter, cssId, dsHandler);
     }
 
-    constructor(elem, sdoAdapter, ds, cssId) {
+    constructor(elem, sdoAdapter, cssId, dsHandler) {
         this.elem = elem;
         this.sdoAdapter = sdoAdapter;
-        this.ds = ds;
         this.cssId = cssId;
-
-        this.shacl = new Shacl(this.ds);
+        this.dsHandler = dsHandler;
 
         DSEditor.instanceCounter++;
     }
@@ -84,7 +63,7 @@ class DSEditor {
         const input = document.getElementById(inputId);
         input.addEventListener('change', (event) => {
             const selectedClass = event.target.value;
-            this.shacl.addRootClasses(selectedClass);
+            this.dsHandler.addRootClasses(selectedClass);
 
             const propRowId = this.cssId + '-property-row';
             const propRow = document.getElementById(propRowId);
