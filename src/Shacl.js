@@ -63,6 +63,33 @@ class Shacl {
             }
         };
     }
+
+    constructor(ds) {
+        this.ds = ds;
+    }
+
+    addRootClasses(targetClasses) {
+        // TargetClass is either a string or an array of strings
+        // The specified class(es) must use the vocab indicator, e.g. "schema:bakery" or "sti:schiHuette"
+        if (typeof (targetClasses) === 'string') {
+            targetClasses = [targetClasses];
+        }
+
+        for (const targetClass of targetClasses) {
+            let previousValue = this.ds['@graph'][0]['sh:targetClass'];
+            if (previousValue === '') {
+                this.ds['@graph'][0]['sh:targetClass'] = targetClass;
+            } else if (typeof (previousValue) === 'string') { // 1 element previously
+                if (previousValue !== targetClass) {
+                    this.ds['@graph'][0]['sh:targetClass'] = [previousValue, targetClass];
+                }
+            } else {
+                if (!(targetClass in this.ds['@graph'][0]['sh:targetClass'])) {
+                    this.ds['@graph'][0]['sh:targetClass'].push(targetClass);
+                }
+            }
+        }
+    }
 }
 
 module.exports = Shacl;

@@ -43,6 +43,8 @@ class DSEditor {
         this.ds = ds;
         this.cssId = cssId;
 
+        this.shacl = new Shacl(this.ds);
+
         DSEditor.instanceCounter++;
     }
 
@@ -68,7 +70,8 @@ class DSEditor {
         const inputId = this.cssId + '-class-input';
         const input = document.getElementById(inputId);
         input.addEventListener('change', (event) => {
-            // TODO
+            this.shacl.addRootClasses(event.target.value);
+            // TODO: Adapter HTML
         }, true);
     }
 }
