@@ -71,6 +71,7 @@ class DSEditor {
         return '<div id="' + rowId + '" style="visibility: hidden;">' +
             '<div class="ds-editor-avail-props">' +
             '<h4>Available properties</h4>' +
+            '<table class="ds-editor-avail-props-table ds-editor-table-striped"></table>' +
             '</div>' +
             '<div class="ds-editor-sel-props">' +
             '<h4>Selected properties</h4>' +
@@ -88,7 +89,12 @@ class DSEditor {
             const propRowId = this.cssId + '-property-row';
             const propRow = document.getElementById(propRowId);
             propRow.style.visibility = 'visible';
-            // TODO: Adapter HTML
+
+            const availPropsTable = propRow.getElementsByClassName('ds-editor-avail-props-table')[0];
+            const sdoClass = this.sdoAdapter.getClass(selectedClass);
+            availPropsTable.innerHTML = sdoClass.getProperties().sort().map((p) => {
+                return '<tr><td>' + Util.prettyPrintIri(p) + '</td></tr>';
+            }).join('');
         }, true);
     }
 }
