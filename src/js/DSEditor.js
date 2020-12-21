@@ -68,9 +68,13 @@ class DSEditor {
 
     createPropertyLayout() {
         const rowId = this.cssId + '-property-row';
-        return '<div id="' + rowId + '">' +
-            '<div class="ds-editor-avail-props"></div>' +
-            '<div class="ds-editor-sel-props"></div>' +
+        return '<div id="' + rowId + '" style="visibility: hidden;">' +
+            '<div class="ds-editor-avail-props">' +
+            '<h4>Available properties</h4>' +
+            '</div>' +
+            '<div class="ds-editor-sel-props">' +
+            '<h4>Selected properties</h4>' +
+            '</div>' +
             '</div>';
     }
 
@@ -81,6 +85,9 @@ class DSEditor {
             const selectedClass = event.target.value;
             this.shacl.addRootClasses(selectedClass);
 
+            const propRowId = this.cssId + '-property-row';
+            const propRow = document.getElementById(propRowId);
+            propRow.style.visibility = 'visible';
             // TODO: Adapter HTML
         }, true);
     }

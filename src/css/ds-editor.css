@@ -1,7 +1,9 @@
 .ds-editor-avail-props {
     width: 20%;
+    float: left;
 }
 
 .ds-editor-sel-props {
     width: 80%;
+    float: left;
 }
