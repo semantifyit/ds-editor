@@ -77,12 +77,16 @@ class DSEditor {
             }).join('');
 
             const rows = availPropsTbody.childNodes; // tbody --> tr
-            debugger;
             rows.forEach((row) => {
                 row.addEventListener('click', (event) => {
                     const p = row.dataset.property;
                     const selPropsTbody = propRow.getElementsByClassName('ds-editor-sel-props-table')[0].childNodes[0];
-                    selPropsTbody.innerHTML += '<tr data-property="' + p + '"><td>' + Util.prettyPrintIri(p) + '</td></tr>';
+                    const htmlNewRow = '<tr data-property="' + p + '"><td>' + Util.prettyPrintIri(p) + '</td></tr>';
+                    const newRow = Util.htmlToElement(htmlNewRow);
+                    newRow.addEventListener('click', (event) => {
+                        // TODO
+                    });
+                    selPropsTbody.append(newRow);
                     row.remove();
                 }, true)
             });
