@@ -50,10 +50,11 @@ class DSEditor {
         return '<div id="' + rowId + '" style="visibility: hidden;">' +
             '<div class="ds-editor-avail-props">' +
             '<h4>Available properties</h4>' +
-            '<table class="ds-editor-avail-props-table ds-editor-table-striped"></table>' +
+            '<table class="ds-editor-avail-props-table ds-editor-table-striped"><tbody></tbody></table>' +
             '</div>' +
             '<div class="ds-editor-sel-props">' +
             '<h4>Selected properties</h4>' +
+            '<table class="ds-editor-sel-props-table ds-editor-table-striped"><tbody></tbody></table>' +
             '</div>' +
             '</div>';
     }
@@ -69,11 +70,22 @@ class DSEditor {
             const propRow = document.getElementById(propRowId);
             propRow.style.visibility = 'visible';
 
-            const availPropsTable = propRow.getElementsByClassName('ds-editor-avail-props-table')[0];
+            const availPropsTbody = propRow.getElementsByClassName('ds-editor-avail-props-table')[0].childNodes[0];
             const sdoClass = this.sdoAdapter.getClass(selectedClass);
-            availPropsTable.innerHTML = sdoClass.getProperties().sort().map((p) => {
-                return '<tr><td>' + Util.prettyPrintIri(p) + '</td></tr>';
+            availPropsTbody.innerHTML = sdoClass.getProperties().sort().map((p) => {
+                return '<tr data-property="' + p + '"><td>' + Util.prettyPrintIri(p) + '</td></tr>';
             }).join('');
+
+            const rows = availPropsTbody.childNodes; // tbody --> tr
+            debugger;
+            rows.forEach((row) => {
+                row.addEventListener('click', (event) => {
+                    const p = row.dataset.property;
+                    const selPropsTbody = propRow.getElementsByClassName('ds-editor-sel-props-table')[0].childNodes[0];
+                    selPropsTbody.innerHTML += '<tr data-property="' + p + '"><td>' + Util.prettyPrintIri(p) + '</td></tr>';
+                    row.remove();
+                }, true)
+            });
         }, true);
     }
 }
