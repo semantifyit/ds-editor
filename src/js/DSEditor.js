@@ -15,6 +15,7 @@ class DSEditor {
         const dsHandler = new DSHandler(latestSDOVersion);
 
         const cssId = 'ds-editor-' + (DSEditor.instanceCounter + 1);
+
         return new DSEditor(elem, sdoAdapter, cssId, dsHandler);
     }
 
@@ -96,32 +97,35 @@ class DSEditor {
         const newRow = Util.htmlToElement(htmlNewRow);
         selPropsTbody.append(newRow);
         event.currentTarget.remove();
-        newRow.addEventListener('click', (event) => {
-            const usedRow = event.currentTarget;
-            const propUsed = Util.prettyPrintIri(usedRow.dataset.property);
-            // Insert to avail properties at alphabetically correct position
-            // 1) Find property with alphabetically bigger, then insert before
-            // 2) If not found, just append to table
-            const availPropsTbody = propRow.getElementsByClassName('ds-editor-avail-props-table')[0].childNodes[0];
-            const trsAvail = availPropsTbody.childNodes;
-            const htmlNewRow = '<tr data-property="' + p + '"><td>' + Util.prettyPrintIri(p) + '</td></tr>';
-            const newRow = Util.htmlToElement(htmlNewRow);
-            let inserted = false;
-            for (const trAvail of trsAvail) {
-                const propAvail = Util.prettyPrintIri(trAvail.dataset.property);
-                if (propAvail.localeCompare(propUsed) > 0) {
-                    availPropsTbody.insertBefore(newRow, trAvail);
-                    inserted = true;
-                    break;
-                }
-            }
-            if (!inserted) {
-                availPropsTbody.append(newRow);
-            }
-            usedRow.remove();
+        newRow.addEventListener('click', this.moveToAvailProperties.bind(this), true);
+    }
 
-            // TODO: Add Event Listener
-        });
+    moveToAvailProperties(event) {
+        const usedRow = event.currentTarget;
+        const propUsed = usedRow.dataset.property;
+        const propUsedPretty = Util.prettyPrintIri(propUsed);
+        const propRowId = this.cssId + '-property-row';
+        const propRow = document.getElementById(propRowId);
+        // Insert to avail properties at alphabetically correct position
+        // 1) Find property with alphabetically bigger, then insert before
+        // 2) If not found, just append to table
+        const availPropsTbody = propRow.getElementsByClassName('ds-editor-avail-props-table')[0].childNodes[0];
+        const trsAvail = availPropsTbody.childNodes;
+        const htmlNewRow = '<tr data-property="' + propUsed + '"><td>' + propUsedPretty + '</td></tr>';
+        const newRow = Util.htmlToElement(htmlNewRow);
+        let inserted = false;
+        for (const trAvail of trsAvail) {
+            const propAvail = Util.prettyPrintIri(trAvail.dataset.property);
+            if (propAvail.localeCompare(propUsedPretty) > 0) {
+                availPropsTbody.insertBefore(newRow, trAvail);
+                inserted = true;
+                break;
+            }
+        }
+        if (!inserted) {
+            availPropsTbody.append(newRow);
+        }
+        usedRow.remove();
     }
 }
 
