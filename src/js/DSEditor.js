@@ -126,6 +126,8 @@ class DSEditor {
             availPropsTbody.append(newRow);
         }
         usedRow.remove();
+
+        newRow.addEventListener('click', this.moveToSelectedProperties.bind(this), true);
     }
 }
 
