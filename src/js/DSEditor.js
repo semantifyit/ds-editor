@@ -72,7 +72,9 @@ class DSEditor {
 
             const availPropsTbody = propRow.getElementsByClassName('ds-editor-avail-props-table')[0].childNodes[0];
             const sdoClass = this.sdoAdapter.getClass(selectedClass);
-            availPropsTbody.innerHTML = sdoClass.getProperties().sort().map((p) => {
+            availPropsTbody.innerHTML = sdoClass.getProperties().sort((a, b) => {
+                return a.localeCompare(b);
+            }).map((p) => {
                 return '<tr data-property="' + p + '"><td>' + Util.prettyPrintIri(p) + '</td></tr>';
             }).join('');
 
