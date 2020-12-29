@@ -20,6 +20,27 @@ class Util {
         return template.content.firstChild;
     }
 
+    static checkIfValueTypeIsBasicDataType(valueType) {
+        return [
+            "Boolean",
+            "Date",
+            "DateTime",
+            "Time",
+            "Text",
+            "URL",
+            "Number",
+            "Integer",
+            "Float"
+        ].includes(valueType);
+    }
+
+    static isString(object) {
+        if (object === undefined || object === null) {
+            return false;
+        }
+        return typeof object === 'string' || object instanceof String;
+    }
+
 }
 
 module.exports = Util;
