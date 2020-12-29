@@ -372,14 +372,24 @@ class DSHandler {
             classObj = this.classEditMemory[depth]["shacl"];
             propArray = classObj["sh:node"]["sh:property"];
         }
+
+        let index = null;
         for (let i = 0; i < propArray.length; i++) {
             if (propArray[i]["sh:path"] === propertyName) {
                 // Use splice instead of delete, otherwise no reindexing is applied
                 // https://stackoverflow.com/questions/500606/deleting-array-elements-in-javascript-delete-vs-splice
-                propArray.splice(i, 1);
-                return;
+
+                index = i;
+                break;
             }
         }
+
+        // Adapt order
+        for (let i = index + 1; i < propArray.length; i++) {
+            propArray[i]["sh:order"] -= 1;
+        }
+
+        propArray.splice(index, 1);
     }
 }
 

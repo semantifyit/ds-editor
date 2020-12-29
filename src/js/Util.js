@@ -40,7 +40,6 @@ class Util {
         }
         return typeof object === 'string' || object instanceof String;
     }
-
 }
 
 module.exports = Util;

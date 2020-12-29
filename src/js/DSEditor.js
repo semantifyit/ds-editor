@@ -94,7 +94,7 @@ class DSEditor {
         const propRow = document.getElementById(propRowId);
         const selPropsTbody = propRow.getElementsByClassName('ds-editor-sel-props-table')[0].childNodes[0];
 
-        this.addProperty(propertyIRI, selPropsTbody);
+        this.addProperty(propertyIRI, selPropsTbody.children.length);
 
         const htmlNewRow = '' +
             '<tr data-property="' + propertyIRI + '">' +
@@ -106,11 +106,11 @@ class DSEditor {
         newRow.addEventListener('click', this.moveToAvailProperties.bind(this), true);
     }
 
-    addProperty(propertyIRI, selPropsTbody) {
+    addProperty(propertyIRI, order) {
         // Update SHACL property
         const path = '$'; // TODO: Receive generically
         const depth = this.dsHandler.getDepth(path);
-        this.dsHandler.addPropertyWithParams(path, propertyIRI, selPropsTbody.children.length);
+        this.dsHandler.addPropertyWithParams(path, propertyIRI, order);
 
         // Update SHACL property ranges (TODO: Move to ds handler)
         let targetClasses;
