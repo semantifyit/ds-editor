@@ -360,6 +360,27 @@ class DSHandler {
                 path.substring(this.classEditMemory[depth]["path"].length));
         }
     }
+
+    removeProperty(path, propertyName) {
+        let depth = this.getDepth(path);
+        let classObj;
+        let propArray;
+        if (depth === 0) {
+            classObj = this.resolvePath(this.ds["@graph"][0], path);
+            propArray = classObj["sh:property"];
+        } else {
+            classObj = this.classEditMemory[depth]["shacl"];
+            propArray = classObj["sh:node"]["sh:property"];
+        }
+        for (let i = 0; i < propArray.length; i++) {
+            if (propArray[i]["sh:path"] === propertyName) {
+                // Use splice instead of delete, otherwise no reindexing is applied
+                // https://stackoverflow.com/questions/500606/deleting-array-elements-in-javascript-delete-vs-splice
+                propArray.splice(i, 1);
+                return;
+            }
+        }
+    }
 }
 
 module.exports = DSHandler;

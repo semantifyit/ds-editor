@@ -172,6 +172,8 @@ class DSEditor {
                 }
             }
         }
+
+        // TODO: Update order
     }
 
     ascOrderRanges(ranges){
@@ -235,6 +237,11 @@ class DSEditor {
     moveToAvailProperties(event) {
         const usedRow = event.currentTarget;
         const propUsed = usedRow.dataset.property;
+
+        const path = '$'; // TODO: Make generic
+        this.dsHandler.removeProperty(path, propUsed);
+        // TODO: Update order
+
         const propUsedPretty = Util.prettyPrintIri(propUsed);
         const propRowId = this.cssId + '-property-row';
         const propRow = document.getElementById(propRowId);
