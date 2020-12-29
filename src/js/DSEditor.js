@@ -90,10 +90,12 @@ class DSEditor {
 
     moveToSelectedProperties(event) {
         const propertyIRI = event.currentTarget.dataset.property;
-
         const propRowId = this.cssId + '-property-row';
         const propRow = document.getElementById(propRowId);
         const selPropsTbody = propRow.getElementsByClassName('ds-editor-sel-props-table')[0].childNodes[0];
+
+        this.addProperty(propertyIRI, selPropsTbody);
+
         const htmlNewRow = '' +
             '<tr data-property="' + propertyIRI + '">' +
             '<td>' + Util.prettyPrintIri(propertyIRI) + '</td>' +
@@ -102,7 +104,9 @@ class DSEditor {
         selPropsTbody.append(newRow);
         event.currentTarget.remove();
         newRow.addEventListener('click', this.moveToAvailProperties.bind(this), true);
+    }
 
+    addProperty(propertyIRI, selPropsTbody) {
         // Update SHACL property
         const path = '$'; // TODO: Receive generically
         const depth = this.dsHandler.getDepth(path);
