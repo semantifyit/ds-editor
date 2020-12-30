@@ -58,6 +58,7 @@ class DSEditor {
             '<h4>Selected properties</h4>' +
             '<table class="table table-striped table-hover ds-editor-sel-props-table">' +
             '<thead>' +
+            '<th></th>' +
             '<th>Name</th>' +
             '<th>Allowed value types</th>' +
             '</thead>' +
@@ -112,6 +113,7 @@ class DSEditor {
 
         const htmlNewRow = '' +
             '<tr data-property="' + propertyIRI + '">' +
+            '<td><i class="fas fa-angle-left"></i></td>' +
             '<td>' + Util.prettyPrintIri(propertyIRI) + '</td>' +
             '<td> TODO: Ranges </td>' +
             '</tr>';
