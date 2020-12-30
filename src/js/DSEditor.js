@@ -84,7 +84,7 @@ class DSEditor {
             availPropsTbody.innerHTML = sdoClass.getProperties().sort((a, b) => {
                 return a.localeCompare(b);
             }).map((p) => {
-                return '<tr data-property="' + p + '"><td>' + Util.prettyPrintIri(p) + '</td></tr>';
+                return this.createAvailPropertyRow(p);
             }).join('');
 
             const rows = availPropsTbody.childNodes; // tbody --> tr
@@ -92,6 +92,14 @@ class DSEditor {
                 row.addEventListener('click', self.moveToSelectedProperties.bind(self), true)
             });
         }, true);
+    }
+
+    createAvailPropertyRow(property) {
+        return '' +
+            '<tr data-property="' + property + '">' +
+            '<td align="left">' + Util.prettyPrintIri(property) + '</td>' +
+            '<td align="right"><i class="fas fa-angle-right"></i></td>' +
+            '</tr>';
     }
 
     moveToSelectedProperties(event) {
@@ -246,7 +254,6 @@ class DSEditor {
         const path = '$'; // TODO: Make generic
         this.dsHandler.removeProperty(path, propUsed);
 
-        const propUsedPretty = Util.prettyPrintIri(propUsed);
         const propRowId = this.cssId + '-property-row';
         const propRow = document.getElementById(propRowId);
         // Insert to avail properties at alphabetically correct position
@@ -254,12 +261,12 @@ class DSEditor {
         // 2) If not found, just append to table
         const availPropsTbody = propRow.getElementsByClassName('ds-editor-avail-props-table')[0].childNodes[0];
         const trsAvail = availPropsTbody.childNodes;
-        const htmlNewRow = '<tr data-property="' + propUsed + '"><td>' + propUsedPretty + '</td></tr>';
+        const htmlNewRow =  this.createAvailPropertyRow(propUsed);
         const newRow = Util.htmlToElement(htmlNewRow);
         let inserted = false;
         for (const trAvail of trsAvail) {
             const propAvail = Util.prettyPrintIri(trAvail.dataset.property);
-            if (propAvail.localeCompare(propUsedPretty) > 0) {
+            if (propAvail.localeCompare(Util.prettyPrintIri(propUsed)) > 0) {
                 availPropsTbody.insertBefore(newRow, trAvail);
                 inserted = true;
                 break;
