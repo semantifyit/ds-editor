@@ -22,6 +22,8 @@ Add Material Design for Bootrap and the bundled file to your website:
 <script src="bundle.js"></script>
 ```
 
+## Usage
+
 To create a Domain Specification Editor inside a HTML DOM Element do the following:
 
 ``` html
