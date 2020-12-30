@@ -49,14 +49,20 @@ class DSEditor {
 
     createPropertyLayout() {
         const rowId = this.cssId + '-property-row';
-        return '<div id="' + rowId + '" style="visibility: hidden;">' +
-            '<div class="ds-editor-avail-props">' +
+        return '<div id="' + rowId + '" style="visibility: hidden;" class="row">' +
+            '<div class="col-md-2">' +
             '<h4>Available properties</h4>' +
-            '<table class="ds-editor-avail-props-table ds-editor-table-striped"><tbody></tbody></table>' +
+            '<table class="table table-striped table-hover ds-editor-avail-props-table"><tbody></tbody></table>' +
             '</div>' +
-            '<div class="ds-editor-sel-props">' +
+            '<div class="col-md-10"">' +
             '<h4>Selected properties</h4>' +
-            '<table class="ds-editor-sel-props-table ds-editor-table-striped"><tbody></tbody></table>' +
+            '<table class="table table-striped table-hover ds-editor-sel-props-table">' +
+            '<thead>' +
+            '<th>Name</th>' +
+            '<th>Allowed value types</th>' +
+            '</thead>' +
+            '<tbody></tbody>' +
+            '</table>' +
             '</div>' +
             '</div>';
     }
@@ -92,13 +98,14 @@ class DSEditor {
         const propertyIRI = event.currentTarget.dataset.property;
         const propRowId = this.cssId + '-property-row';
         const propRow = document.getElementById(propRowId);
-        const selPropsTbody = propRow.getElementsByClassName('ds-editor-sel-props-table')[0].childNodes[0];
+        const selPropsTbody = propRow.getElementsByClassName('ds-editor-sel-props-table')[0].childNodes[1];
 
         this.addProperty(propertyIRI, selPropsTbody.children.length);
 
         const htmlNewRow = '' +
             '<tr data-property="' + propertyIRI + '">' +
             '<td>' + Util.prettyPrintIri(propertyIRI) + '</td>' +
+            '<td> TODO: Ranges </td>' +
             '</tr>';
         const newRow = Util.htmlToElement(htmlNewRow);
         selPropsTbody.append(newRow);
@@ -172,8 +179,6 @@ class DSEditor {
                 }
             }
         }
-
-        // TODO: Update order
     }
 
     ascOrderRanges(ranges){
@@ -240,7 +245,6 @@ class DSEditor {
 
         const path = '$'; // TODO: Make generic
         this.dsHandler.removeProperty(path, propUsed);
-        // TODO: Update order
 
         const propUsedPretty = Util.prettyPrintIri(propUsed);
         const propRowId = this.cssId + '-property-row';
