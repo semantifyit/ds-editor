@@ -5,7 +5,7 @@
 Bundle your source files with browserify:
 
 ``` bash
-$ browserify src/DSEditor.js -s DSEditor -o bundle.js
+$ browserify src/js/DSEditor.js -s DSEditor -o bundle.js
 ```
 
 Add Material Design for Bootrap and the bundled file to your website:
